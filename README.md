@@ -1,8 +1,8 @@
-# AWS Blog - How to leverage Application Load Balancer's advanced request routing to route application traffic across multiple Amazon EKS Clusters
+## How to leverage Application Load Balancer's advanced request routing to route application traffic across multiple Amazon EKS Clusters
 
 This project shows the implementation steps of the architecture explained in the AWS Blog.
 
-## Step 1. Create two EKS clusters:
+### Step 1. Create two EKS clusters:
 
 - Create Cluster 1:
 ```bash
@@ -13,7 +13,7 @@ cat environment/cluster1.yaml | envsubst | eksctl create cluster -f -
 ```bash
 cat environment/cluster1.yaml | envsubst | eksctl create cluster -f -
 ```
-## Step 2. Create unique namespace for each cluster:
+### Step 2. Create unique namespace for each cluster:
 
 - Create Cluster 1 namespace:
 ```bash
@@ -29,7 +29,7 @@ kubectl create namespace eks-sample-webapp-2
 ```bash
 kubectl delete namespace eks-sample-webapp-1
 ```
-## Step 3. Create ConfigMap to modify default index.html on an nginx webserver:
+### Step 3. Create ConfigMap to modify default index.html on an nginx webserver:
 
 - Service 1 running in Cluster 1: 
     - Create/apply ConfigMap:
@@ -51,7 +51,7 @@ kubectl delete namespace eks-sample-webapp-1
     ```bash
     kubectl delete -f service1-index-html-configmap.yaml
     ```
-## Step 4. Create service deployment, unique for each service:
+### Step 4. Create service deployment, unique for each service:
 
 - Service 1 Cluster 1:
     - Create/apply service 1 manifest file:
@@ -82,9 +82,9 @@ kubectl delete namespace eks-sample-webapp-1
     kubectl delete -f service1-manifest.yaml
     ```        
 
-## Step 5.  Create ALB and target groups:
+### Step 5.  Create ALB and target groups:
 
-## Step 6.  Create Targetgoupbinding:
+### Step 6.  Create Targetgoupbinding:
 
 - Create target group binding for cluster 1 service 1
 ```bash
@@ -99,7 +99,7 @@ kubectl delete namespace eks-sample-webapp-1
 	cat target-group-binding.yaml | envsubst | kubectl delete -f -
 ```
 
-## Step 7. Create ALB Controller - k8s component) to update Target Group
+### Step 7. Create ALB Controller - k8s component) to update Target Group
 
 ---
 * Create IAM Policy for the AWS Load Balancer Controller:
@@ -157,7 +157,7 @@ eksctl delete iamserviceaccount \
 aws iam delete-policy \
     --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/AWSLoadBalancerControllerIAMPolicy
 ```
-## Step 8. Create advance routing rules for ALB (path based and header based):
+### Step 8. Create advance routing rules for ALB (path based and header based):
 
 
 ## Security
