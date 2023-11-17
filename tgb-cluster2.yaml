@@ -1,0 +1,10 @@
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: sample-http-service-1-tg-binding
+  namespace: eks-sample-webapp-2
+spec:
+  serviceRef:
+    name: sample-http-service-1 #route traffic to the eks-sample-linux-app-1
+    port: 80
+  targetGroupARN: ${EKS_CLUSTER2_TG1_ARN}

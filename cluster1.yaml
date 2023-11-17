@@ -1,0 +1,43 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: ${EKS_CLUSTER1_NAME}
+  region: ${AWS_REGION}
+  version: '1.25'
+  tags:
+    karpenter.sh/discovery: ${EKS_CLUSTER1_NAME}
+    created-by: eks-workshop-v2
+    env: ${EKS_CLUSTER1_NAME}
+
+kubernetesNetworkConfig:
+  serviceIPv4CIDR: 172.21.0.0/16
+
+iam:
+  withOIDC: true
+
+vpc:
+  subnets: 
+    private: 
+      us-west-2a: { id: subnet-095635e1ad9529e4a }
+      us-west-2b: { id: subnet-0284ef7ffc08ff1e6 }
+  clusterEndpoints:
+    privateAccess: true
+    publicAccess: true
+
+addons:
+- name: vpc-cni
+  version: v1.12.5-eksbuild.2
+  configurationValues: "{\"env\":{\"ENABLE_PREFIX_DELEGATION\":\"true\", \"ENABLE_POD_ENI\":\"true\", \"POD_SECURITY_GROUP_ENFORCING_MODE\":\"standard\"}}"
+  resolveConflicts: overwrite
+
+managedNodeGroups:
+- name: default
+  desiredCapacity: 2
+  minSize: 2
+  maxSize: 4
+  instanceType: m5.large
+  privateNetworking: true
+  releaseVersion: 1.25.6-20230304
+  labels:
+    workshop-default: 'yes'
