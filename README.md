@@ -93,7 +93,12 @@ EOF
 
 10. Add ingressrule to the worker node security group for `cluster1`
 
-11. Create `cluster2`
+```bash
+export NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'eks-cluster-sg-cluster1')].GroupId" --output text)
+```
+
+
+12. Create `cluster2`
 
 ```bash
 eksctl create cluster -f cluster2.yaml
