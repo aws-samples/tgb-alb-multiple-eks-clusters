@@ -10,6 +10,7 @@ This project shows the implementation steps of the solution architecture explain
    	- [eksctl](https://eksctl.io/installation/)
   	- [kubectl](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
   	- [Helm](https://helm.sh/docs/intro/install/)
+  	- [kubectx](https://github.com/ahmetb/kubectx) - Optional
 
 All the shell commands shown below are based on the assumption that you use the default profile in your AWS CLI config.
 
@@ -85,6 +86,8 @@ aws eks update-kubeconfig --name cluster2
 ```bash
 source aws_load_balancer_controller.sh
 ```
+
+11. 
 
 ## Security
 
