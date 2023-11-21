@@ -18,7 +18,7 @@ This project shows the implementation steps of the solution architecture explain
 1. Create CloudFormation Stack
 
 ```bash
-aws cloudformation create-stack --stack-name awsblogstack --template-body file://cfn.yml
+aws cloudformation create-stack --stack-name awsblogstack --template-body file://cfn.yaml
 ```
 
 **Note :** User can provide their own values for the parameters in the stack by using `--parameters` option followed by `ParameterKey=KeyPairName, ParameterValue=TestKey`
@@ -40,14 +40,14 @@ source env.sh
 4. Prepare the eksctl cluster config manifests
 
 ```bash
-envsubst < cluster1_template.yml > cluster1.yml
-envsubst < cluster2_template.yml > cluster2.yml
+envsubst < cluster1_template.yaml > cluster1.yaml
+envsubst < cluster2_template.yaml > cluster2.yaml
 ```
 
 5. Create `cluster1`
 
 ```bash
-eksctl create cluster -f cluster1.yml
+eksctl create cluster -f cluster1.yaml
 ```
 
 It takes 15 minutes for an EKS cluster to be ready. You can start creating `Cluster2` in a separate shell immediately; otherwise you need to wait for `Cluster1` creation process to complete before moving on to the next step. If you choose to create `Cluster2` immediately then **do not forget** to source the env.sh file again in that other terminal window before attempting to create Cluster2.
@@ -55,7 +55,7 @@ It takes 15 minutes for an EKS cluster to be ready. You can start creating `Clus
 6. Create `cluster2`
 
 ```bash
-eksctl create cluster -f cluster2.yml
+eksctl create cluster -f cluster2.yaml
 ```
 
 7. Update `kubeconfig` file
