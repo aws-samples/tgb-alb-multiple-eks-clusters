@@ -72,7 +72,7 @@ Verify that the worker nodes status is `ready` by doing `kubectl get nodes`.
 8. Install AWS Load Balancer Controller on `cluster1`
 
 ```bash
-source aws_load_balancer_controller.sh
+source aws_load_balancer_controller_cluster1.sh
 ```
 
 9. Update `kubeconfig` file to access `cluster2`
@@ -84,7 +84,7 @@ aws eks update-kubeconfig --name cluster2
 10. Install AWS Load Balancer Controller on `cluster2`
 
 ```bash
-source aws_load_balancer_controller.sh
+source aws_load_balancer_controller_cluster2.sh
 ```
 
 11. 
