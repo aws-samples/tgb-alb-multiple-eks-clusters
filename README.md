@@ -13,8 +13,6 @@ This project shows the implementation steps of the solution architecture explain
 
 **Note :** All the shell commands shown below are based on the assumption that you use the default profile in your AWS CLI config.
 
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
-
 ## Solution
 
 1. Create CloudFormation Stack
@@ -67,7 +65,7 @@ aws eks update-kubeconfig --name Cluster2
 8. 
 
 
- 
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
 
 ## License
 
