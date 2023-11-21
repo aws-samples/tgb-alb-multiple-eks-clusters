@@ -58,11 +58,11 @@ It takes 15 minutes for an EKS cluster to be ready. You can start creating `Clus
 eksctl create cluster -f cluster2.yaml
 ```
 
-7. Update `kubeconfig` file
+7. Update `kubeconfig` file to access `cluster1`
 
 ```bash
-aws eks update-kubeconfig --name Cluster1 
-aws eks update-kubeconfig --name Cluster2
+aws eks update-kubeconfig --name cluster1 
+aws eks update-kubeconfig --name cluster2
 ```
 
 8. Install AWS Load Balancer Controller on `cluster1`
