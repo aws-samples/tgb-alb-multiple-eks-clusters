@@ -7,4 +7,4 @@ spec:
   serviceRef:
     name: sample-http-service-1 #route traffic to the eks-sample-linux-app-1
     port: 80
-  targetGroupARN: ${EKS_CLUSTER1_TG1_ARN}
+  targetGroupARN: ${TargetGroup1ARN}
