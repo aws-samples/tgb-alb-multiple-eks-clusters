@@ -91,31 +91,33 @@ spec:
 EOF
 ```
 
-10. Create `cluster2`
+10. Configured additional ingressrule on worker node security group for `cluster1`
+
+11. Create `cluster2`
 
 ```bash
 eksctl create cluster -f cluster2.yaml
 ```
 
-11. Update `kubeconfig` file to access `cluster2`
+12. Update `kubeconfig` file to access `cluster2`
 
 ```bash
 aws eks update-kubeconfig --name cluster2
 ```
 
-12. Install AWS Load Balancer Controller on `cluster2`
+13. Install AWS Load Balancer Controller on `cluster2`
 
 ```bash
 source aws_load_balancer_controller_cluster2.sh
 ```
 
-13. Deploy the application pods and service on `cluster2`
+14. Deploy the application pods and service on `cluster2`
 
 ```bash
 kubectl apply -f cluster2_app.yaml
 ```
 
-9. Create `TargetGroupBinding` custom resource on `cluster2`
+15. Create `TargetGroupBinding` custom resource on `cluster2`
 
 ```bash
 cat <<EOF | kubectl apply -f -
