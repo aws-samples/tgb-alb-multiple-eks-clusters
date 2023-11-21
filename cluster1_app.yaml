@@ -47,7 +47,6 @@ spec:
       containers:
       - name: nginx
         image: public.ecr.aws/nginx/nginx:1.23
-        imagePullPolicy: IfNotPresent
         volumeMounts:
           - name: nginx-html-files
             mountPath: /usr/share/nginx/html/
