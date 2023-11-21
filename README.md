@@ -23,11 +23,14 @@ aws cloudformation create-stack --stack-name awsblogstack --template-body file:/
 
 **Note :** User can provide their own values for the parameters in the stack by using `--parameters` option followed by `ParameterKey=KeyPairName, ParameterValue=TestKey`
 
-2. Watch the status of the stack
+2. Check the status of the CloudFormation stack
 
 ```bash
 watch aws cloudformation describe-stacks --stack-name awsblogstack --query "Stacks[0].StackStatus" --output text
 ```
+
+Once the output shows `CREATE_COMPLETE` you can move on to next step. Exit using `CTRL + C`. 
+
 3. Set environment variables
 
 ```bash
