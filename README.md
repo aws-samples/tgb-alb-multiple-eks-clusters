@@ -55,13 +55,7 @@ eksctl create cluster -f cluster1.yaml
 
 It takes 15 minutes for an EKS cluster creation to be ready. You can either start creating `Cluster2` in a separate shell immediately; or can wait for `Cluster1` creation process to complete before moving on to the next step. If you choose to create `Cluster2` immediately then **do not forget** to source the env.sh file again in that other terminal window before attempting to create Cluster2.
 
-6. Create `cluster2`
-
-```bash
-eksctl create cluster -f cluster2.yaml
-```
-
-7. Update `kubeconfig` file to access `cluster1`
+6. Update `kubeconfig` file to access `cluster1`
 
 ```bash
 aws eks update-kubeconfig --name cluster1 
@@ -69,10 +63,16 @@ aws eks update-kubeconfig --name cluster1
 
 Verify that the worker nodes status is `ready` by doing `kubectl get nodes`. 
 
-8. Install AWS Load Balancer Controller on `cluster1`
+7. Install AWS Load Balancer Controller on `cluster1`
 
 ```bash
 source aws_load_balancer_controller_cluster1.sh
+```
+
+8. Create `cluster2`
+
+```bash
+eksctl create cluster -f cluster2.yaml
 ```
 
 9. Update `kubeconfig` file to access `cluster2`
