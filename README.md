@@ -91,7 +91,7 @@ spec:
 EOF
 ```
 
-10. Add ingressrule on worker node security group for `cluster1`
+10. Add ingressrule to the worker node security group for `cluster1`
 
 11. Create `cluster2`
 
