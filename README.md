@@ -122,12 +122,12 @@ cat <<EOF | kubectl apply -f -
 apiVersion: elbv2.k8s.aws/v1beta1
 kind: TargetGroupBinding
 metadata:
-  name: test1-service-tgb
+  name: test2-service-tgb
 spec:
   serviceRef:
-    name: test1service
+    name: test2service
     port: 80
-  targetGroupARN: ${TargetGroup1ARN}
+  targetGroupARN: ${TargetGroup2ARN}
 EOF
 ```
 
