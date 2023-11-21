@@ -69,8 +69,13 @@ Verify that the worker nodes status is `ready` by doing `kubectl get nodes`.
 source aws_load_balancer_controller_cluster1.sh
 ```
 
-8. Deploy the application pods and service
+8. Deploy the application pods and service on `cluster1`
 
+```bash
+kubectl apply -f cluster1_app.yaml
+```
+
+9. Create `TargetGroupBinding` custom resource on `cluster1`
 
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -86,26 +91,44 @@ spec:
 EOF
 ```
 
-
-
-
-
-Create `cluster2`
+10. Create `cluster2`
 
 ```bash
 eksctl create cluster -f cluster2.yaml
 ```
 
-Update `kubeconfig` file to access `cluster2`
+11. Update `kubeconfig` file to access `cluster2`
 
 ```bash
 aws eks update-kubeconfig --name cluster2
 ```
 
-Install AWS Load Balancer Controller on `cluster2`
+12. Install AWS Load Balancer Controller on `cluster2`
 
 ```bash
 source aws_load_balancer_controller_cluster2.sh
+```
+
+13. Deploy the application pods and service on `cluster2`
+
+```bash
+kubectl apply -f cluster2_app.yaml
+```
+
+9. Create `TargetGroupBinding` custom resource on `cluster2`
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: test1-service-tgb
+spec:
+  serviceRef:
+    name: test1service
+    port: 80
+  targetGroupARN: ${TargetGroup1ARN}
+EOF
 ```
 
 ## Security
