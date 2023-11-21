@@ -1,7 +1,7 @@
 apiVersion: elbv2.k8s.aws/v1beta1
 kind: TargetGroupBinding
 metadata:
-  name: sample-http-service-1-tg-binding
+  name: test1-service-tgb
 spec:
   serviceRef:
     name: test1service
