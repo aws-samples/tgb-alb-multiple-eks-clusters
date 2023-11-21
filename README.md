@@ -11,7 +11,7 @@ This project shows the implementation steps of the solution architecture explain
   	- [kubectl](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
   	- [Helm](https://helm.sh/docs/intro/install/)
 
-**Note :** All the shell commands shown below are based on the assumption that you use the default profile in your AWS CLI config.
+All the shell commands shown below are based on the assumption that you use the default profile in your AWS CLI config.
 
 ## Solution
 
@@ -21,7 +21,7 @@ This project shows the implementation steps of the solution architecture explain
 aws cloudformation create-stack --stack-name awsblogstack --template-body file://cfn.yaml
 ```
 
-**Note :** User can provide their own values for the parameters in the stack by using `--parameters` option followed by `ParameterKey=KeyPairName, ParameterValue=TestKey`
+If you prefer to use your own values for the parameters in the stack then please use the `--parameters` option with the above command followed by `ParameterKey=KeyPairName, ParameterValue=TestKey`.
 
 2. Check the status of the CloudFormation stack
 
@@ -44,6 +44,8 @@ envsubst < cluster1_template.yaml > cluster1.yaml
 envsubst < cluster2_template.yaml > cluster2.yaml
 ```
 
+Cluster config manifests are configured with minimum information. In its current state it deploys EKS v1.28 and the worker nodes use Amazon Linux 2 OS.
+
 5. Create `cluster1`
 
 ```bash
@@ -64,7 +66,7 @@ eksctl create cluster -f cluster2.yaml
 aws eks update-kubeconfig --name cluster1 
 ```
 
-Verify that the worker nodes are all `ready` by doing `kubectl get nodes`. 
+Verify that the worker nodes status is `ready` by doing `kubectl get nodes`. 
 
 8. Install AWS Load Balancer Controller on `cluster1`
 
