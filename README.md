@@ -62,7 +62,6 @@ eksctl create cluster -f cluster2.yaml
 
 ```bash
 aws eks update-kubeconfig --name cluster1 
-aws eks update-kubeconfig --name cluster2
 ```
 
 8. Install AWS Load Balancer Controller on `cluster1`
