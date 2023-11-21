@@ -7,9 +7,11 @@ This project shows the implementation steps of the solution architecture explain
 - A client machine which has access to AWS and Kubernetes API server.
 - You need the following tools on the client machine.
 	- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-  	- [eksctl](https://eksctl.io/installation/)
+   	- [eksctl](https://eksctl.io/installation/)
   	- [kubectl](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
   	- [Helm](https://helm.sh/docs/intro/install/)
+
+**Note :** All the shell commands shown below are based on the assumption that you use the default profile in your AWS CLI config.
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
 
