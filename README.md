@@ -69,7 +69,22 @@ Verify that the worker nodes status is `ready` by doing `kubectl get nodes`.
 source aws_load_balancer_controller_cluster1.sh
 ```
 
-8.
+8. Deploy the application pods and service
+
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: test1-service-tgb
+spec:
+  serviceRef:
+    name: test1service
+    port: 80
+  targetGroupARN: ${TargetGroup1ARN}
+EOF
+```
 
 
 
