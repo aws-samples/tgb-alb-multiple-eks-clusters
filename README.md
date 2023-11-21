@@ -41,17 +41,15 @@ envsubst < cluster1_template.yml > cluster1.yml
 envsubst < cluster2_template.yml > cluster2.yml
 ```
 
-5. Create eks `Cluster1`
+5. Create `Cluster1`
 
 ```bash
 eksctl create cluster -f cluster1.yml
 ```
 
-**Note :** Cluster creation and nodes to get ready takes 15 minutes.
+It takes 15 minutes for an EKS cluster to be ready. You can start creating `Cluster2` in a separate shell immediately; otherwise you need to wait for `Cluster1` creation process to complete before moving on to the next step. If you choose to create `Cluster2` immediately then **do not forget** to source the env.sh file again in that other terminal window before attempting to create Cluster2.
 
-**Note :** You can create `Cluster2` in a separate terminal window simultaneously otherwise you need to wait for `Cluster1` to be ready before moving to the next step. Do not forget to source the env.sh file again in that other terminal window before attempting to create Cluster2.
-
-6. Create eks `Cluster2`
+6. Create `Cluster2`
 
 ```bash
 eksctl create cluster -f cluster2.yml
