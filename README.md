@@ -12,6 +12,8 @@ This project shows the implementation steps of the solution architecture explain
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
 
+## Solution
+
 ## License
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
