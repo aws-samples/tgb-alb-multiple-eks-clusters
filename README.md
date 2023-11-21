@@ -53,7 +53,7 @@ Cluster config manifests are configured with minimum information. In its current
 eksctl create cluster -f cluster1.yaml
 ```
 
-It takes 15 minutes for an EKS cluster creation to be ready. You can either start creating `Cluster2` in a separate shell immediately; or can wait for `Cluster1` creation process to complete before moving on to the next step. If you choose to create `Cluster2` immediately then **do not forget** to source the env.sh file again in that other terminal window before attempting to create Cluster2.
+It takes 15 minutes for an EKS cluster creation to be ready. You can either start creating `Cluster2` in a separate shell immediately ([Step X]()); or wait for `Cluster1` creation process to complete before moving on to the next step. If you choose to create `Cluster2` immediately then **do not forget** to source the env.sh file again in that other terminal window before attempting to create Cluster2.
 
 6. Update `kubeconfig` file to access `cluster1`
 
