@@ -64,6 +64,8 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-Public-Subnet-AZ1
+        - Key: "kubernetes.io/role/elb"
+          Value: "1"
 
   PublicSubnet2:
     Type: AWS::EC2::Subnet
@@ -74,6 +76,8 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-Public-Subnet-AZ1
+        - Key: "kubernetes.io/role/elb"
+          Value: "1"
 
   PrivateSubnet1:
     Type: AWS::EC2::Subnet
