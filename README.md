@@ -64,6 +64,7 @@ aws eks update-kubeconfig --name Cluster2
 
 8. 
 
+## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
 
