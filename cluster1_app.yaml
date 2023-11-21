@@ -57,7 +57,7 @@ spec:
             - configMap:
                 name: service-index-configmap
             - configMap:
-                name: service1-cluster1-configmap
+                name: service-cluster1-configmap
 --- 
 apiVersion: v1
 kind: Service
