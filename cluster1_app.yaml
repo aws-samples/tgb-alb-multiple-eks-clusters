@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: service-index-html-configmap
+  name: service-index-configmap
 data:
   index.html: |
     <html>
@@ -17,7 +17,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: service-cluster1-html-configmap
+  name: service-cluster1-configmap
 data:
   cluster1.html: |
     <html>
@@ -56,9 +56,9 @@ spec:
         projected:
           sources:
             - configMap:
-                name: service-index-html-configmap
+                name: service-index-configmap
             - configMap:
-                name: service1-cluster1-html-configmap
+                name: service1-cluster1-configmap
 --- 
 apiVersion: v1
 kind: Service
