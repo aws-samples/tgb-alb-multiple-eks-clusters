@@ -118,7 +118,7 @@ export NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityG
 export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'ALBSecurityGroup')].GroupId" --output text)
 aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
 ```
-Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity purposes this feature is not demonstrated here.
+Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity it is not demonstrated here.
 
 13. Verify access to the `service1`
 
