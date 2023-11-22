@@ -110,7 +110,7 @@ Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/
 Examine the pre-configured forwarding rules on the AWS Application Load Balancer through AWS console or AWS CLI. Then perform the following command which sets a cookie as `user=user1`.
 
 ```bash
-curl --cookie "user=user1" $ALB_DNS_NAME
+curl --cookie "user=user1" $ALBDNSNAME
 ```
 
 Sample Output
@@ -197,7 +197,7 @@ aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --pro
 Examine the pre-configured forwarding rules on the AWS Application Load Balancer through AWS console or AWS CLI. Then perform the following command which sets a cookie as `user=user2`.
 
 ```bash
-curl --cookie "user=user2" $ALB_DNS_NAME
+curl --cookie "user=user2" $ALBDNSNAME
 ```
 
 Sample Output
