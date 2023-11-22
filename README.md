@@ -38,7 +38,7 @@ Once the output shows `CREATE_COMPLETE` you can move on to next step. Exit using
 source env.sh
 ```
 
-4. Embed environment variables and prepare the eksctl cluster config manifest for `cluster1`
+4. Embed environment variables into the eksctl cluster config file for `cluster1`
 
 ```bash
 envsubst < cluster1_template.yaml > cluster1.yaml
