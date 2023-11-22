@@ -91,7 +91,7 @@ spec:
 EOF
 ```
 
-10. Verify the Pods are registered as Targets
+10. Verify the Pods in `cluster1` are registered as Targets in `TargetGroup1` on ALB
 
 The Pod IPs from `kubectl get pods -o wide` should match the Target IPs from `aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query 'TargetHealthDescriptions[*].Target.Id'`
 
