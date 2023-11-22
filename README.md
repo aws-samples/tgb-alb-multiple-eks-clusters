@@ -127,6 +127,7 @@ Sample Output
 </html
 ```
 
+If you do not use any cookies in the request then a fixed page shows up with the content `You did not specify a user-id. This is a fixed response`. 
 
 14. Create `cluster2`
 
