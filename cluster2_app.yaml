@@ -9,7 +9,7 @@ data:
         <title> Welcome to Amazon EKS </title>
       </head>
       <body>
-        <h1> You are accessing the application in cluster 2 </h1>
+        <h1> You are accessing the application in cluster2 </h1>
         <h3> Knowledge is valuable only when it is shared. </h3>
       </body>
     </html
