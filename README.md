@@ -192,7 +192,7 @@ export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGr
 aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
 ```
 
-22. Verify access to the `service2`
+- 22. Verify access to the `service2`
 
 Examine the pre-configured forwarding rules on the AWS Application Load Balancer through AWS console or AWS CLI. Then perform the following command which sets a cookie as `user=user2`.
 
@@ -218,9 +218,25 @@ Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/
 
 ## Clean-up
 
-1. 
-- delete sg rules
-- delete clusters
+1. Delete `cluster1`
+
+```bash
+eksctl delete cluster --name cluster1
+```
+
+You can either wait for the `cluster1` to be deleted succesfully (which takes ~10 minutes) or you can move on to next step immediately. 
+
+2. Delete `cluster2`
+
+In a separate terminal window start the process to delete `cluster2`
+
+```bash
+eksctl delete cluster --name cluster2
+```
+
+It will take approximately 10 minutes for the deletion process to be completed successfully.
+
+3. 
 
 
 ## Security
