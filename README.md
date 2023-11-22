@@ -95,14 +95,16 @@ EOF
 
 The Pod IPs from `kubectl get pods -o wide` should match the Target IPs from `aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query 'TargetHealthDescriptions[*].Target.Id'`
 
-12. Add ingressrule to the worker node security group for `cluster1`
+12. Add ingress rule to the worker node security group for `cluster1`
+
+The node security group by default only allows communication from the EKS control plane. Pods are also part the node security group hence we need to allow TCP port 80. 
 
 ```bash
 export NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'eks-cluster-sg-cluster1')].GroupId" --output text)
 export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'ALBSecurityGroup')].GroupId" --output text)
 aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
 ```
-
+Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity purposes this feature is not demonstrated here.
 
 12. Create `cluster2`
 
@@ -145,6 +147,21 @@ spec:
   targetGroupARN: ${TargetGroup2ARN}
 EOF
 ```
+
+17. Verify the Pods in `cluster2` are registered as Targets in `TargetGroup2` on ALB
+
+The Pod IPs from `kubectl get pods -o wide` should match the Target IPs from `aws elbv2 describe-target-health --target-group-arn ${TargetGroup2ARN}  --query 'TargetHealthDescriptions[*].Target.Id'`
+
+12. Add ingress rule to the worker node security group for `cluster2`
+
+The node security group by default only allows communication from the EKS control plane. Pods are also part the node security group hence we need to allow TCP port 80. 
+
+```bash
+export NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'eks-cluster-sg-cluster2')].GroupId" --output text)
+export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'ALBSecurityGroup')].GroupId" --output text)
+aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
+```
+Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity purposes this feature is not demonstrated here.
 
 ## Clean-up
 
