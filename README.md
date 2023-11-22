@@ -38,11 +38,10 @@ Once the output shows `CREATE_COMPLETE` you can move on to next step. Exit using
 source env.sh
 ```
 
-4. Prepare the eksctl cluster config manifests
+4. Embed environment variables and prepare the eksctl cluster config manifest for `cluster1`
 
 ```bash
 envsubst < cluster1_template.yaml > cluster1.yaml
-envsubst < cluster2_template.yaml > cluster2.yaml
 ```
 
 Cluster config manifests are configured with minimum information. In its current state it deploys EKS v1.28 and the worker nodes use Amazon Linux 2 OS.
