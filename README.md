@@ -67,7 +67,7 @@ It takes 15 minutes for an EKS cluster creation to be ready. You can either star
 aws eks update-kubeconfig --name cluster1 
 ```
 
-Verify that the worker nodes status is `ready` by doing `kubectl get nodes`. 
+Verify that the worker nodes status is `Ready` by doing `kubectl get nodes`. 
 
 7. Install AWS Load Balancer Controller on `cluster1`
 
