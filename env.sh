@@ -4,6 +4,8 @@ export EnvironmentName=$(aws cloudformation describe-stacks --stack-name awsblog
 
 export AWS_REGION=$(aws ec2 describe-availability-zones --output text --query "AvailabilityZones[0].[RegionName]")
 
+export ALBDNSNAME=$(aws cloudformation describe-stacks --stack-name awsblogstack --query "Stacks[0].Outputs[?contains(OutputKey, 'LoadBalancerDNSName')].OutputValue" --output text)
+
 export TargetGroup1ARN=$(aws cloudformation describe-stacks --stack-name awsblogstack --query "Stacks[0].Outputs[?contains(OutputKey, 'TargetGroup1ARN')].OutputValue" --output text)
 
 export TargetGroup2ARN=$(aws cloudformation describe-stacks --stack-name awsblogstack --query "Stacks[0].Outputs[?contains(OutputKey, 'TargetGroup2ARN')].OutputValue" --output text)
