@@ -128,13 +128,21 @@ Sample Output
 
 If you do not use any cookies in the request then a fixed page shows up with the content `You did not specify a user-id. This is a fixed response`. 
 
-14. Create `cluster2`
+14. Embed environment variables into the eksctl cluster config file for `cluster2`
+
+```bash
+envsubst < cluster2_template.yaml > cluster2.yaml
+```
+
+Cluster config manifests are configured with minimum information. In its current state it deploys EKS v1.28 and the worker nodes use Amazon Linux 2 OS.
+
+15. Create `cluster2`
 
 ```bash
 eksctl create cluster -f cluster2.yaml
 ```
 
-15. Update `kubeconfig` file to access `cluster2`
+16. Update `kubeconfig` file to access `cluster2`
 
 ```bash
 aws eks update-kubeconfig --name cluster2
@@ -142,19 +150,19 @@ aws eks update-kubeconfig --name cluster2
 
 Use `kubectl config current-context` to make sure you are in cluster2 context. 
 
-16. Install AWS Load Balancer Controller on `cluster2`
+17. Install AWS Load Balancer Controller on `cluster2`
 
 ```bash
 source aws_load_balancer_controller_cluster2.sh
 ```
 
-17. Deploy the application pods and service on `cluster2`
+18. Deploy the application pods and service on `cluster2`
 
 ```bash
 kubectl apply -f cluster2_app.yaml
 ```
 
-18. Create `TargetGroupBinding` custom resource on `cluster2`
+19. Create `TargetGroupBinding` custom resource on `cluster2`
 
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -170,11 +178,11 @@ spec:
 EOF
 ```
 
-19. Verify the Pods in `cluster2` are registered as Targets in `TargetGroup2` on ALB
+20. Verify the Pods in `cluster2` are registered as Targets in `TargetGroup2` on ALB
 
 The Pod IPs from `kubectl get pods -o wide` should match the Target IPs from `aws elbv2 describe-target-health --target-group-arn ${TargetGroup2ARN}  --query 'TargetHealthDescriptions[*].Target.Id'`
 
-20. Add ingress rule to the worker node security group for `cluster2`
+21. Add ingress rule to the worker node security group for `cluster2`
 
 The node security group by default only allows communication from the EKS control plane. Pods are also part the node security group hence we need to allow TCP port 80. 
 
@@ -184,7 +192,7 @@ export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGr
 aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
 ```
 
-21. Verify access to the `service2`
+22. Verify access to the `service2`
 
 Examine the pre-configured forwarding rules on the AWS Application Load Balancer through AWS console or AWS CLI. Then perform the following command which sets a cookie as `user=user2`.
 
@@ -210,6 +218,7 @@ Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/
 
 ## Clean-up
 
+1. 
 - delete sg rules
 - delete clusters
 
