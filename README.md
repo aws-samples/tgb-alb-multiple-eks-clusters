@@ -180,6 +180,8 @@ Use `kubectl config current-context` to make sure kubeconfig context is set to c
 source aws_load_balancer_controller_cluster2.sh
 ```
 
+If you see an error such as `A policy called AWSLoadBalancerControllerIAMPolicy already exists. Duplicate names are not allowed.` you can safely ignore it. Once the step completes you should see `AWS Load Balancer Controller installed!`
+
 18. Deploy the application pods and service on `cluster2`
 
 ```bash
