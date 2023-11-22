@@ -16,7 +16,14 @@ All the shell commands shown below are based on the assumption that you use the 
 
 ## Solution
 
-1. Create CloudFormation Stack
+0. Clone this GitHub repo to your machine.
+
+```bash
+git clone https://github.com/aws-samples/tgb-alb-multiple-eks-clusters.git
+cd tgb-alb-multiple-eks-clusters
+```
+
+2. Create CloudFormation Stack
 
 ```bash
 aws cloudformation create-stack --stack-name awsblogstack --template-body file://cfn.yaml
