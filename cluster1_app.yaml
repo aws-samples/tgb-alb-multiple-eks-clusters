@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: service-index-configmap
+  name: nginx-configmap
 data:
   index.html: |
     <html>
@@ -11,22 +11,6 @@ data:
       <body>
         <h1> You are accessing the service in cluster 1 </h1>
         <h3> This is the index.html page </h3>
-      </body>
-    </html
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: service-cluster1-configmap
-data:
-  cluster1.html: |
-    <html>
-      <head>
-        <title> Welcome to Amazon EKS </title>
-      </head>
-      <body>
-        <h1> You are accessing the service in cluster 1 </h1>
-        <h3> This is the cluster1.html page </h3>
       </body>
     </html
 ---
@@ -55,9 +39,7 @@ spec:
         projected:
           sources:
             - configMap:
-                name: service-index-configmap
-            - configMap:
-                name: service-cluster1-configmap
+                name: nginx-configmap
 --- 
 apiVersion: v1
 kind: Service
