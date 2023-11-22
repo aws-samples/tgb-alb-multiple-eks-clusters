@@ -74,7 +74,7 @@ Verify that the worker nodes status is `Ready` by doing `kubectl get nodes`.
 ```bash
 source aws_load_balancer_controller_cluster1.sh
 ```
-One of the steps in this script creates an IAM policy called `AWSLoadBalancerControllerIAMPolicy`. If you have installed the controller in the past you might already have this policy defined in AWS IAM. In that case you might see an error but please safely ignore it.
+If you see an error such as `A policy called AWSLoadBalancerControllerIAMPolicy already exists. Duplicate names are not allowed.` you can safely ignore it. Once the step completes you should see `AWS Load Balancer Controller installed!`
 
 8. Deploy the application pods and service on `cluster1`
 
