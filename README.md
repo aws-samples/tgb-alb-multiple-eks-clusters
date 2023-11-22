@@ -288,7 +288,7 @@ aws cloudformation delete-stack --stack-name awsblogstack
 watch aws cloudformation describe-stacks --stack-name awsblogstack --query "Stacks[0].StackStatus" --output text
 ```
 
-Once the output shows `DELETE_COMPLETE` that means the whole environment is deleted.
+Once the output shows `DELETE_COMPLETE` that means the whole environment is deleted. Keep in mind that after it completes you will start seeing an error message stating that the stack does not exist. 
 
 ## Security
 
