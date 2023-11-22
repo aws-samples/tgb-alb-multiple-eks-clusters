@@ -172,7 +172,7 @@ eksctl create cluster -f cluster2.yaml
 aws eks update-kubeconfig --name cluster2
 ```
 
-Use `kubectl config current-context` to make sure you are in cluster2 context. 
+Use `kubectl config current-context` to make sure kubeconfig context is set to cluster2. 
 
 17. Install AWS Load Balancer Controller on `cluster2`
 
