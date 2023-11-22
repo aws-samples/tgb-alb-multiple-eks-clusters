@@ -123,7 +123,7 @@ aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --pro
 
 Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity it is not demonstrated here.
 
-Verify that targets are now `Healthy`. 
+Verify that the targets are now `Healthy`. 
 
 ```bash
 aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query "TargetHealthDescriptions[*].TargetHealth" --output text
