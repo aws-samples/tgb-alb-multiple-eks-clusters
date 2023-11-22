@@ -140,6 +140,12 @@ spec:
 EOF
 ```
 
+## Clean-up
+
+- delete sg rules
+- delete clusters
+
+
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
