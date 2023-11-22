@@ -104,7 +104,7 @@ The Pod IPs should match the Target IPs. Verify that by using the commands shown
 
 ```bash
 kubectl get pods -o wide
-aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query 'TargetHealthDescriptions[*].Target.Id'
+aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query "TargetHealthDescriptions[*].Target.Id"
 ```
 
 At this stage the targets will be `Unhealthy`. The reason is explained in the next step.
@@ -118,6 +118,13 @@ export NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityG
 export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'ALBSecurityGroup')].GroupId" --output text)
 aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
 ```
+
+Verify that targets are now `Healthy`. 
+
+```bash
+aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query "TargetHealthDescriptions[*].TargetHealth" --output text
+```
+
 Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity it is not demonstrated here.
 
 13. Verify access to the `service1`
