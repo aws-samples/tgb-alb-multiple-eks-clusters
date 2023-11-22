@@ -91,7 +91,9 @@ spec:
 EOF
 ```
 
-10. Add ingressrule to the worker node security group for `cluster1`
+10. 
+
+11. Add ingressrule to the worker node security group for `cluster1`
 
 ```bash
 export NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'eks-cluster-sg-cluster1')].GroupId" --output text)
@@ -106,7 +108,7 @@ aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --pro
 eksctl create cluster -f cluster2.yaml
 ```
 
-12. Update `kubeconfig` file to access `cluster2`
+13. Update `kubeconfig` file to access `cluster2`
 
 ```bash
 aws eks update-kubeconfig --name cluster2
@@ -114,19 +116,19 @@ aws eks update-kubeconfig --name cluster2
 
 Use `kubectl config current-context` to make sure you are in cluster2 context. 
 
-13. Install AWS Load Balancer Controller on `cluster2`
+14. Install AWS Load Balancer Controller on `cluster2`
 
 ```bash
 source aws_load_balancer_controller_cluster2.sh
 ```
 
-14. Deploy the application pods and service on `cluster2`
+15. Deploy the application pods and service on `cluster2`
 
 ```bash
 kubectl apply -f cluster2_app.yaml
 ```
 
-15. Create `TargetGroupBinding` custom resource on `cluster2`
+16. Create `TargetGroupBinding` custom resource on `cluster2`
 
 ```bash
 cat <<EOF | kubectl apply -f -
