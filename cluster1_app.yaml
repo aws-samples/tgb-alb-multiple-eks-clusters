@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-configmap
+  name: module1-configmap
 data:
   index.html: |
     <html>
@@ -9,45 +9,45 @@ data:
         <title> Welcome to Amazon EKS </title>
       </head>
       <body>
-        <h1> You are accessing the service in cluster 1 </h1>
-        <h3> This is the index.html page </h3>
+        <h1> You are accessing the application in cluster2 </h1>
+        <h3> Knowledge is valuable only when it is shared. </h3>
       </body>
     </html
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test1app
+  name: module1
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: test1app
+      app: module1
   template:
     metadata:
       labels:
-        app: test1app
+        app: module1
     spec:
       containers:
       - name: nginx
         image: public.ecr.aws/nginx/nginx:1.23
         volumeMounts:
-          - name: nginx-html-files
+          - name: indexpage
             mountPath: /usr/share/nginx/html/
       volumes:
-      - name: nginx-html-files
+      - name: indexpage
         projected:
           sources:
             - configMap:
-                name: nginx-configmap
+                name: module1-configmap
 --- 
 apiVersion: v1
 kind: Service
 metadata:
-  name: test1service
+  name: service1
 spec:
   selector:
-    app: test1app
+    app: module1
   ports:
     - name: http
       protocol: TCP
