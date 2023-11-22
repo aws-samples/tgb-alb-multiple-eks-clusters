@@ -91,9 +91,11 @@ spec:
 EOF
 ```
 
-10. 
+10. Verify the Pods are registered as Targets
 
-11. Add ingressrule to the worker node security group for `cluster1`
+The Pod IPs from `kubectl get pods -o wide` should match the Target IPs from `aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query 'TargetHealthDescriptions[*].Target.Id'`
+
+12. Add ingressrule to the worker node security group for `cluster1`
 
 ```bash
 export NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'eks-cluster-sg-cluster1')].GroupId" --output text)
