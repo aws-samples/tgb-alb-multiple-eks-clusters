@@ -37,7 +37,7 @@ If you prefer to use your own values for the parameters in the stack then please
 watch aws cloudformation describe-stacks --stack-name awsblogstack --query "Stacks[0].StackStatus" --output text
 ```
 
-Once the output shows `CREATE_COMPLETE` you can move on to next step. Exit using `CTRL + C`. 
+Once the output shows `CREATE_COMPLETE` you can move on to the next step. Exit using `CTRL + C`. 
 
 For easier reference you can navigate to the CloudFormation service console and see which resources are created. At a high level the resources created are a VPC, two public subnets, two private subnets, two target groups, an Application Load Balancer with a listener and two listener rules. 
 
@@ -264,7 +264,7 @@ If you do not use any cookies in the request then a fixed page shows up with the
 eksctl delete cluster --name cluster1
 ```
 
-You can either wait for the `cluster1` to be deleted succesfully (which takes ~10 minutes) or you can move on to next step immediately. 
+You can either wait for the `cluster1` to be deleted succesfully (which takes ~10 minutes) or you can move on to the next step immediately. 
 
 - Delete `cluster2`
 
