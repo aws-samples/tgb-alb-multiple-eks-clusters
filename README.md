@@ -119,13 +119,13 @@ export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGr
 aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
 ```
 
+Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity it is not demonstrated here.
+
 Verify that targets are now `Healthy`. 
 
 ```bash
 aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query "TargetHealthDescriptions[*].TargetHealth" --output text
 ```
-
-Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity it is not demonstrated here.
 
 13. Verify access to the `service1`
 
