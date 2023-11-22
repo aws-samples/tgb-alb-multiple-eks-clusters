@@ -192,7 +192,7 @@ export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGr
 aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
 ```
 
-- 22. Verify access to the `service2`
+* 22. Verify access to the `service2`
 
 Examine the pre-configured forwarding rules on the AWS Application Load Balancer through AWS console or AWS CLI. Then perform the following command which sets a cookie as `user=user2`.
 
