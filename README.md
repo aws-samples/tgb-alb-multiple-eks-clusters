@@ -12,7 +12,7 @@ This project shows the steps involved to implement the solution architecture exp
   	- [Helm](https://helm.sh/docs/intro/install/)
   	- [kubectx](https://github.com/ahmetb/kubectx) - Optional
 
-All the shell commands shown below are based on the assumption that you use the default profile in your AWS CLI config.
+Assumption : You already configured a [default] in AWS CLI config/credentials files.
 
 ## Solution
 
