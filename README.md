@@ -23,7 +23,7 @@ git clone https://github.com/aws-samples/tgb-alb-multiple-eks-clusters.git
 cd tgb-alb-multiple-eks-clusters
 ```
 
-2. Create CloudFormation Stack
+1. Create CloudFormation Stack
 
 ```bash
 aws cloudformation create-stack --stack-name awsblogstack --template-body file://cfn.yaml
