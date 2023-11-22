@@ -106,13 +106,35 @@ aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --pro
 ```
 Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity purposes this feature is not demonstrated here.
 
-12. Create `cluster2`
+13. Verify access to the service
+
+Examine the pre-configured forwarding rules on the AWS Application Load Balancer through AWS console or AWS CLI. Then perform the following command which sets a cookie as `user=user1`.
+
+```bash
+curl --cookie "user=user1" $ALB_DNS_NAME
+```
+
+Sample Output
+```
+<html>
+  <head>
+    <title> Welcome to Amazon EKS </title>
+  </head>
+  <body>
+    <h1> You are accessing the application in cluster2 </h1>
+    <h3> Knowledge is valuable only when it is shared. </h3>
+  </body>
+</html
+```
+
+
+14. Create `cluster2`
 
 ```bash
 eksctl create cluster -f cluster2.yaml
 ```
 
-13. Update `kubeconfig` file to access `cluster2`
+15. Update `kubeconfig` file to access `cluster2`
 
 ```bash
 aws eks update-kubeconfig --name cluster2
@@ -120,19 +142,19 @@ aws eks update-kubeconfig --name cluster2
 
 Use `kubectl config current-context` to make sure you are in cluster2 context. 
 
-14. Install AWS Load Balancer Controller on `cluster2`
+16. Install AWS Load Balancer Controller on `cluster2`
 
 ```bash
 source aws_load_balancer_controller_cluster2.sh
 ```
 
-15. Deploy the application pods and service on `cluster2`
+17. Deploy the application pods and service on `cluster2`
 
 ```bash
 kubectl apply -f cluster2_app.yaml
 ```
 
-16. Create `TargetGroupBinding` custom resource on `cluster2`
+18. Create `TargetGroupBinding` custom resource on `cluster2`
 
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -148,11 +170,11 @@ spec:
 EOF
 ```
 
-17. Verify the Pods in `cluster2` are registered as Targets in `TargetGroup2` on ALB
+19. Verify the Pods in `cluster2` are registered as Targets in `TargetGroup2` on ALB
 
 The Pod IPs from `kubectl get pods -o wide` should match the Target IPs from `aws elbv2 describe-target-health --target-group-arn ${TargetGroup2ARN}  --query 'TargetHealthDescriptions[*].Target.Id'`
 
-12. Add ingress rule to the worker node security group for `cluster2`
+20. Add ingress rule to the worker node security group for `cluster2`
 
 The node security group by default only allows communication from the EKS control plane. Pods are also part the node security group hence we need to allow TCP port 80. 
 
