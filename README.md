@@ -225,6 +225,8 @@ export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGr
 aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
 ```
 
+Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity purposes this feature is not demonstrated here.
+
 Verify that the targets are now `Healthy`. 
 
 ```bash
@@ -253,7 +255,6 @@ Sample Output
 ```
 
 If you do not use any cookies in the request then a fixed page shows up with the content `You did not specify a user-id. This is a fixed response`. 
-Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity purposes this feature is not demonstrated here.
 
 ## Clean-up
 
