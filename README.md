@@ -107,6 +107,8 @@ kubectl get pods -o wide
 aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query 'TargetHealthDescriptions[*].Target.Id'
 ```
 
+At this stage the targets will be `Unhealthy`. The reason is explained in the next step.
+
 12. Add ingress rule to the worker node security group for `cluster1`
 
 The node security group by default only allows communication from the EKS control plane. Pods are also part the node security group hence we need to allow TCP port 80. 
