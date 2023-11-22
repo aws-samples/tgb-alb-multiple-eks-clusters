@@ -100,7 +100,12 @@ EOF
 
 10. Verify the Pods in `cluster1` are registered as Targets in `TargetGroup1` on ALB
 
-The Pod IPs from `kubectl get pods -o wide` should match the Target IPs from `aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query 'TargetHealthDescriptions[*].Target.Id'`
+The Pod IPs should match the Target IPs. Verify that by using the commands shown below.
+
+```bash
+kubectl get pods -o wide
+aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query 'TargetHealthDescriptions[*].Target.Id'
+```
 
 12. Add ingress rule to the worker node security group for `cluster1`
 
