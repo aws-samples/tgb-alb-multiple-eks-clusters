@@ -106,7 +106,7 @@ aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --pro
 ```
 Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity purposes this feature is not demonstrated here.
 
-13. Verify access to the service
+13. Verify access to the `service1`
 
 Examine the pre-configured forwarding rules on the AWS Application Load Balancer through AWS console or AWS CLI. Then perform the following command which sets a cookie as `user=user1`.
 
@@ -121,7 +121,7 @@ Sample Output
     <title> Welcome to Amazon EKS </title>
   </head>
   <body>
-    <h1> You are accessing the application in cluster2 </h1>
+    <h1> You are accessing the application in cluster1 </h1>
     <h3> Knowledge is valuable only when it is shared. </h3>
   </body>
 </html
@@ -184,6 +184,29 @@ export NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityG
 export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'ALBSecurityGroup')].GroupId" --output text)
 aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
 ```
+
+21. Verify access to the `service2`
+
+Examine the pre-configured forwarding rules on the AWS Application Load Balancer through AWS console or AWS CLI. Then perform the following command which sets a cookie as `user=user2`.
+
+```bash
+curl --cookie "user=user2" $ALB_DNS_NAME
+```
+
+Sample Output
+```
+<html>
+  <head>
+    <title> Welcome to Amazon EKS </title>
+  </head>
+  <body>
+    <h1> You are accessing the application in cluster2 </h1>
+    <h3> Knowledge is valuable only when it is shared. </h3>
+  </body>
+</html
+```
+
+If you do not use any cookies in the request then a fixed page shows up with the content `You did not specify a user-id. This is a fixed response`. 
 Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity purposes this feature is not demonstrated here.
 
 ## Clean-up
