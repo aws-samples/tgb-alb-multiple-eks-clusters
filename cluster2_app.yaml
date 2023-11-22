@@ -1,91 +1,53 @@
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: service1-index-html-configmap
-  namespace: eks-sample-webapp-2
+  name: module2-configmap
 data:
   index.html: |
     <html>
       <head>
-        <title> Welcome to EKS POC </title>
+        <title> Welcome to Amazon EKS </title>
       </head>
       <body>
-        <h1> You are accessing Service One on Cluster Two </h1>
-        <h3> This is an index.html page </h3>
-      </body>
-    </html
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: service1-cluster2service1-html-configmap
-  namespace: eks-sample-webapp-2
-data:
-  cluster2service1.html: |
-    <html>
-      <head>
-        <title> Welcome to EKS POC </title>
-      </head>
-      <body>
-        <h1> You are accessing Service One on Cluster Two </h1>
-        <h3> This is a cluster2service1.html page </h3>
+        <h1> You are accessing the application in cluster 2 </h1>
+        <h3> Knowledge is valuable only when it is shared. </h3>
       </body>
     </html
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sample-http-service-1
-  namespace: eks-sample-webapp-2
+  name: module2
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: sample-http-service-1
+      app: module2
   template:
     metadata:
       labels:
-        app: sample-http-service-1
+        app: module2
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: kubernetes.io/arch
-                operator: In
-                values:
-                - amd64
-                - arm64
       containers:
       - name: nginx
         image: public.ecr.aws/nginx/nginx:1.23
-        imagePullPolicy: IfNotPresent
         volumeMounts:
-          - name: nginx-html-files
+          - name: indexpage
             mountPath: /usr/share/nginx/html/
       volumes:
-      - name: nginx-html-files
+      - name: indexpage
         projected:
           sources:
             - configMap:
-                name: service1-index-html-configmap
-            - configMap:
-                name: service1-cluster2service1-html-configmap
-      nodeSelector:
-        kubernetes.io/os: linux
-
+                name: module2-configmap
 --- 
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: sample-http-service-1
-  namespace: eks-sample-webapp-2
+  name: service2
 spec:
   selector:
-    app: sample-http-service-1
+    app: module2
   ports:
     - name: http
       protocol: TCP
