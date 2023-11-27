@@ -41,7 +41,9 @@ watch aws cloudformation describe-stacks --stack-name awsblogstack --query "Stac
 
 Once the output shows `CREATE_COMPLETE` you can move on to the next step. Exit using `CTRL + C`. 
 
-For easier reference you can navigate to the CloudFormation service console and see which resources are created. At a high level the resources created are a VPC, two public subnets, two private subnets, two target groups, an Application Load Balancer with a listener and two listener rules. 
+For easier reference you can navigate to the CloudFormation service console and see which resources are created. At a high level the resources created are a VPC, two public subnets, two private subnets, two target groups, an Application Load Balancer with a listener and two listener rules. The rules configured on the ALB are shown below. 
+
+[ALB Listener Rule[/listenerrules.png]
 
 3. Set environment variables
 
