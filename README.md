@@ -23,7 +23,7 @@ git clone https://github.com/aws-samples/tgb-alb-multiple-eks-clusters.git
 cd tgb-alb-multiple-eks-clusters
 ```
 
-Investigate the CloudFormation Stack ([cfn.yaml](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml)) where the advanced request routing configuration on the ALB is accomplished with the [ListenerRule1](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml#L265) and [ListenerRule2](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml#L280C1-L280C1) resources which implements the http header based forwarding rule definitions. This provides the foundation to forward particular http requests to different target groups. 
+Investigate the CloudFormation Stack ([cfn.yaml](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml)) where the advanced request routing configuration on the ALB is accomplished with the [ListenerRule1](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml#L265) and [ListenerRule2](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml#L280C1-L280C1) resources which implement the http header based forwarding rule definitions. This provides the foundation to forward particular http requests to different target groups. 
 
 1. Create CloudFormation Stack
 
