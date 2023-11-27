@@ -16,12 +16,14 @@ Assumption : You already configured a [default] in the AWS CLI config/credential
 
 ## Solution
 
-0. Clone this GitHub repo to your machine.
+Clone this GitHub repo to your machine.
 
 ```bash
 git clone https://github.com/aws-samples/tgb-alb-multiple-eks-clusters.git
 cd tgb-alb-multiple-eks-clusters
 ```
+
+Investigate the CloudFormation Stack file (cfn.yaml). Especially the [ListenerRule1](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml#L265) and [ListenerRule2](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml#L280C1-L280C1) shows the http header based forwarding rule definitions.
 
 1. Create CloudFormation Stack
 
