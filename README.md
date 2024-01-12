@@ -4,36 +4,36 @@ This project shows the steps involved to implement the solution architecture exp
 
 ## Prerequisites
 
-- A machine which has access to AWS and Kubernetes API server.
-- You need the following tools on the client machine.
-	- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-   	- [eksctl](https://eksctl.io/installation/)
-  	- [kubectl](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
-  	- [Helm](https://helm.sh/docs/intro/install/)
-  	- [kubectx](https://github.com/ahmetb/kubectx) - Optional
+- [ ] A machine which has access to AWS and Kubernetes API server.
+- [ ] You need the following tools on the client machine.
+	- [ ] [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+   	- [ ] [eksctl](https://eksctl.io/installation/)
+  	- [ ] [kubectl](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
+  	- [ ] [Helm](https://helm.sh/docs/intro/install/)
+  	- [ ] [kubectx](https://github.com/ahmetb/kubectx) - Optional
 
 Assumption : You already configured a [default] in the AWS CLI config/credentials files.
 
 ## Solution
 
-Clone this GitHub repo to your machine.
+### Step 1 - Clone this GitHub repo to your machine:
 
 ```bash
 git clone https://github.com/aws-samples/tgb-alb-multiple-eks-clusters.git
 cd tgb-alb-multiple-eks-clusters
 ```
 
-Investigate the CloudFormation Stack ([cfn.yaml](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml)) where the advanced request routing configuration on the ALB is accomplished with the [ListenerRule1](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml#L265) and [ListenerRule2](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml#L280C1-L280C1) resources which implement the http header based forwarding rule definitions. This provides the foundation to forward particular http requests to different target groups. 
+Using AWS CloudFormation [cfn.yaml](/templates/cfn.yaml) stack, we configure the advanced request routing on the ALB. Explore [ListenerRule1](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml#L265) and [ListenerRule2](https://github.com/aws-samples/tgb-alb-multiple-eks-clusters/blob/e2a46793ece3473b31d9cf73d545ffc74a818aa8/cfn.yaml#L280C1-L280C1), which implements the http header based forwarding rule definitions. This provides the foundation to forward particular http requests to different target groups.
 
-1. Create CloudFormation Stack
+### Step 2 - Create CloudFormation Stack:
 
 ```bash
-aws cloudformation create-stack --stack-name awsblogstack --template-body file://cfn.yaml
+aws cloudformation create-stack --stack-name awsblogstack --template-body file://template/cfn.yaml
 ```
 
 If you prefer to use your own values for the parameters in the stack then please use the `--parameters` option with the above command followed by `ParameterKey=KeyPairName, ParameterValue=TestKey`.
 
-2. Check the status of the CloudFormation stack
+### Step 3 - Check the status of the CloudFormation stack:
 
 ```bash
 watch aws cloudformation describe-stacks --stack-name awsblogstack --query "Stacks[0].StackStatus" --output text
@@ -43,31 +43,31 @@ Once the output shows `CREATE_COMPLETE` you can move on to the next step. Exit u
 
 For easier reference you can navigate to the CloudFormation service console and see which resources are created. At a high level the resources created are a VPC, two public subnets, two private subnets, two target groups, an Application Load Balancer with a listener and two listener rules. The rules configured on the ALB are shown below. 
 
-![image](/listenerrules.png)
+![listener_rules_image](/images/listenerrules.png)
 
-3. Set environment variables
+### Step 4 - Set environment variables:
 
 ```bash
-source env.sh
+source config_files/env.sh
 ```
 
-4. Embed environment variables into the eksctl cluster config file for `cluster1`
+### Step 5 - Embed environment variables into the eksctl cluster config file for `cluster1`:
 
 ```bash
-envsubst < cluster1_template.yaml > cluster1.yaml
+envsubst < config_files/cluster1_template.yaml > config_files/cluster1.yaml
 ```
 
 Cluster config manifests are configured with minimum information. In its current state it deploys EKS v1.28 and the worker nodes use Amazon Linux 2 OS.
 
-5. Create `cluster1`
+### Step 6 - Create `cluster1`:
 
 ```bash
-eksctl create cluster -f cluster1.yaml
+eksctl create cluster -f config_files/cluster1.yaml
 ```
 
 It takes 15 minutes for an EKS cluster creation to be ready. You can either start creating `Cluster2` in a separate shell immediately (#14 below); or wait for `Cluster1` creation process to complete before moving on to the next step. If you choose to create `Cluster2` immediately then **do not forget** to source the env.sh file again in that other terminal window before attempting to create Cluster2.
 
-6. Update `kubeconfig` file to access `cluster1`
+### Step 7 - Update `kubeconfig` file to access `cluster1`:
 
 ```bash
 aws eks update-kubeconfig --name cluster1 
@@ -75,20 +75,20 @@ aws eks update-kubeconfig --name cluster1
 
 Verify that the worker nodes status is `Ready` by doing `kubectl get nodes`. 
 
-7. Install AWS Load Balancer Controller on `cluster1`
+### Step 8 - Install AWS Load Balancer Controller on `cluster1`:
 
 ```bash
-source aws_load_balancer_controller_cluster1.sh
+source config_files/aws_load_balancer_controller_cluster1.sh
 ```
 If you see an error such as `A policy called AWSLoadBalancerControllerIAMPolicy already exists. Duplicate names are not allowed.` you can safely ignore it. Once the step completes you should see `AWS Load Balancer Controller installed!`
 
-8. Deploy the application pods and service on `cluster1`
+### Step 9 - Deploy the application pods and service on `cluster1`:
 
 ```bash
-kubectl apply -f cluster1_app.yaml
+kubectl apply -f config_files/cluster1_app.yaml
 ```
 
-9. Create `TargetGroupBinding` custom resource on `cluster1`
+### Step 10 - Create `TargetGroupBinding` custom resource on `cluster1`:
 
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -104,7 +104,7 @@ spec:
 EOF
 ```
 
-10. Verify the Pods in `cluster1` are registered as Targets in `TargetGroup1` on ALB
+### Step 11 - Verify the Pods in `cluster1` are registered as Targets in `TargetGroup1` on ALB:
 
 The Pod IPs should match the Target IPs. Verify that by using the commands shown below.
 
@@ -115,14 +115,14 @@ aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query 
 
 At this stage the targets will be `Unhealthy`. The reason is explained in the next step.
 
-12. Add ingress rule to the worker node security group for `cluster1`
+### Step 12 - Add ingress rule to the worker node security group for `cluster1`:
 
 The node security group by default only allows communication from the EKS control plane. Pods are also part the node security group hence we need to allow TCP port 80. 
 
 ```bash
-export NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'eks-cluster-sg-cluster1')].GroupId" --output text)
+export Cluster1NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'eks-cluster-sg-cluster1')].GroupId" --output text)
 export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'ALBSecurityGroup')].GroupId" --output text)
-aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
+aws ec2 authorize-security-group-ingress --group-id ${Cluster1NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
 ```
 
 Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity it is not demonstrated here.
@@ -133,7 +133,7 @@ Verify that the targets are now `Healthy`.
 aws elbv2 describe-target-health --target-group-arn ${TargetGroup1ARN}  --query "TargetHealthDescriptions[*].TargetHealth" --output text
 ```
 
-13. Verify access to the `service1`
+### Step 13 - Verify access to the `service1`:
 
 Examine the pre-configured forwarding rules on the AWS Application Load Balancer through AWS console or AWS CLI. Then perform the following command which sets a cookie as `user=user1`.
 
@@ -156,21 +156,21 @@ Sample Output
 
 If you do not use any cookies in the request then a fixed page shows up with the content `You did not specify a user-id. This is a fixed response`. 
 
-14. Embed environment variables into the eksctl cluster config file for `cluster2`
+### Step 14 - Embed environment variables into the eksctl cluster config file for `cluster2`:
 
 ```bash
-envsubst < cluster2_template.yaml > cluster2.yaml
+envsubst < config_files/cluster2_template.yaml > config_files/cluster2.yaml
 ```
 
 Cluster config manifests are configured with minimum information. In its current state it deploys EKS v1.28 and the worker nodes use Amazon Linux 2 OS.
 
-15. Create `cluster2`
+### Step 15 - Create `cluster2`:
 
 ```bash
-eksctl create cluster -f cluster2.yaml
+eksctl create cluster -f config_files/cluster2.yaml
 ```
 
-16. Update `kubeconfig` file to access `cluster2`
+### Step 16 - Update `kubeconfig` file to access `cluster2`:
 
 ```bash
 aws eks update-kubeconfig --name cluster2
@@ -178,21 +178,21 @@ aws eks update-kubeconfig --name cluster2
 
 Use `kubectl config current-context` to make sure kubeconfig context is set to cluster2. 
 
-17. Install AWS Load Balancer Controller on `cluster2`
+### Step 17 - Install AWS Load Balancer Controller on `cluster2`:
 
 ```bash
-source aws_load_balancer_controller_cluster2.sh
+source config_files/aws_load_balancer_controller_cluster2.sh
 ```
 
 If you see an error such as `A policy called AWSLoadBalancerControllerIAMPolicy already exists. Duplicate names are not allowed.` you can safely ignore it. Once the step completes you should see `AWS Load Balancer Controller installed!`
 
-18. Deploy the application pods and service on `cluster2`
+### Step 18 - Deploy the application pods and service on `cluster2`:
 
 ```bash
-kubectl apply -f cluster2_app.yaml
+kubectl apply -f config_files/cluster2_app.yaml
 ```
 
-19. Create `TargetGroupBinding` custom resource on `cluster2`
+### Step 19 - Create `TargetGroupBinding` custom resource on `cluster2`:
 
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -208,7 +208,7 @@ spec:
 EOF
 ```
 
-20. Verify the Pods in `cluster2` are registered as Targets in `TargetGroup2` on ALB
+### Step 20 - Verify the Pods in `cluster2` are registered as Targets in `TargetGroup2` on ALB:
 
 The Pod IPs should match the Target IPs. Verify that by using the commands shown below.
 
@@ -219,14 +219,14 @@ aws elbv2 describe-target-health --target-group-arn ${TargetGroup2ARN}  --query 
 
 At this stage the targets will be `Unhealthy`. The reason is explained in the next step.
 
-21. Add ingress rule to the worker node security group for `cluster2`
+### Step 21 - Add ingress rule to the worker node security group for `cluster2`:
 
 The node security group by default only allows communication from the EKS control plane. Pods are also part the node security group hence we need to allow TCP port 80. 
 
 ```bash
-export NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'eks-cluster-sg-cluster2')].GroupId" --output text)
+export Cluster2NodeSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'eks-cluster-sg-cluster2')].GroupId" --output text)
 export ALBSecurityGroupId=$(aws ec2 describe-security-groups --query "SecurityGroups[?contains(GroupName, 'ALBSecurityGroup')].GroupId" --output text)
-aws ec2 authorize-security-group-ingress --group-id ${NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
+aws ec2 authorize-security-group-ingress --group-id ${Cluster2NodeSecurityGroupId} --protocol tcp --port 80 --source-group ${ALBSecurityGroupId}
 ```
 
 Alternatively you can use [Security Group for Pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html). For simplicity purposes this feature is not demonstrated here.
@@ -237,7 +237,7 @@ Verify that the targets are now `Healthy`.
 aws elbv2 describe-target-health --target-group-arn ${TargetGroup2ARN}  --query "TargetHealthDescriptions[*].TargetHealth" --output text
 ```
 
-22. Verify access to the `service2`
+### Step 22 - Verify access to the `service2`:
 
 Examine the pre-configured forwarding rules on the AWS Application Load Balancer through AWS console or AWS CLI. Then perform the following command which sets a cookie as `user=user2`.
 
@@ -262,7 +262,7 @@ If you do not use any cookies in the request then a fixed page shows up with the
 
 ## Clean-up
 
-- Delete `cluster1`
+### Step 1 - Delete `cluster1`:
 
 ```bash
 eksctl delete cluster --name cluster1
@@ -270,7 +270,7 @@ eksctl delete cluster --name cluster1
 
 You can either wait for the `cluster1` to be deleted succesfully (which takes ~10 minutes) or you can move on to the next step immediately. 
 
-- Delete `cluster2`
+### Step 1 - Delete `cluster2`:
 
 In a separate terminal window start the process to delete `cluster2`
 
@@ -280,7 +280,7 @@ eksctl delete cluster --name cluster2
 
 It will take approximately 10 minutes for the deletion process to be completed successfully.
 
-- Delete CloudFormation stack `awsblogstack`
+### Step 3 - Delete CloudFormation stack `awsblogstack`:
 
 ```bash
 aws cloudformation delete-stack --stack-name awsblogstack
@@ -301,4 +301,3 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
-
