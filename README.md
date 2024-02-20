@@ -1,4 +1,4 @@
-## How to leverage Application Load Balancer's advanced request routing to route application traffic across multiple Amazon EKS Clusters
+# How to leverage Application Load Balancer's advanced request routing to route application traffic across multiple Amazon EKS Clusters
 
 This project shows the steps involved to implement the solution architecture explained in this AWS blog: [How to leverage Application Load Balancer’s advanced request routing to route application traffic across multiple Amazon EKS clusters](https://aws.amazon.com/blogs/containers/how-to-leverage-application-load-balancers-advanced-request-routing-to-route-application-traffic-across-multiple-amazon-eks-clusters/).
 
