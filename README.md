@@ -270,7 +270,7 @@ eksctl delete cluster --name cluster1
 
 You can either wait for the `cluster1` to be deleted succesfully (which takes ~10 minutes) or you can move on to the next step immediately. 
 
-### Step 1 - Delete `cluster2`:
+### Step 2 - Delete `cluster2`:
 
 In a separate terminal window start the process to delete `cluster2`
 
